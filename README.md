@@ -1,2 +1,2 @@
-© 2026 OLAB'S FOODS & MORE. All rights reserved.
+ A responsive Nigerian foodstuff e-commerce website for OLAB'S FOODS & MORE, featuring a variety of quality food products and an easy-to-use shopping experience.© 2026 OLAB'S FOODS & MORE. All rights reserved.
 This website and its source code are proprietary. No permission is granted to copy, modify, reproduce, or redistribute the website or its content without permission
