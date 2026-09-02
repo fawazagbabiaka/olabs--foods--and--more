@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#176b3a">
+<title>OLAB'S FOODS & MORE</title>
+<style>
+:root{--g:#176b3a;--g2:#0d522c;--cream:#fbfaf5;--gold:#d8aa32;--ink:#17221a;--muted:#68736b;--line:#e5eae6;--card:#fff;--wa:#25d366}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--cream);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+body{min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+header{background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;border-radius:0 0 28px 28px;padding:18px 16px 24px}
+.header-inner{max-width:1100px;margin:auto}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:44px;height:44px;border-radius:14px;background:#fff;color:var(--g);display:grid;place-items:center;font-size:23px}
+.brand h1{font-size:18px;margin:0}.brand small{opacity:.82}
+.hero{max-width:680px;padding-top:24px}.hero h2{font-size:clamp(28px,7vw,48px);line-height:1.02;margin:0 0 10px}.hero p{color:#e5f3e8;margin:0 0 17px}
+.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:0;border-radius:13px;padding:12px 15px;font-weight:800}.btn.primary{background:var(--g);color:#fff}.btn.light{background:#edf5ef;color:var(--g)}.btn.gold{background:#fff1bd;color:#604900}.btn.full{width:100%}
+.actions .btn{flex:1;min-width:150px}
+.topnav{display:none;max-width:1100px;margin:auto;padding:10px 16px 0;gap:5px}.topnav button{border:0;background:transparent;color:#5c6860;padding:10px 12px;border-radius:12px;font-weight:800}.topnav button.active{background:#e9f3eb;color:var(--g)}
+main{max-width:1100px;margin:auto;padding:15px 16px 95px}.screen{display:none}.screen.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:17px;margin:12px 0;box-shadow:0 5px 20px #173a2210}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:21px 0 9px}.section-head h2{font-size:19px;margin:0}.section-head button{border:0;background:none;color:var(--g);font-weight:800}
+.product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.product{padding:0;overflow:hidden;margin:0}.product-img{height:180px;background:#f7f4e9;display:grid;place-items:center;overflow:hidden}.product-img img{width:100%;height:100%;object-fit:contain;display:block;max-width:100%;max-height:100%}.product-img img[src^='data:image']{background:#f7f4e9}.about-us p{line-height:1.6;margin:8px 0}.about-us .actions{margin-top:12px}
+.no-image{width:100%;height:100%;display:grid;place-items:center;color:#6c745f;font-weight:800;font-size:13px;background:linear-gradient(135deg,#f7f4e9,#eef2e6);text-align:center;padding:20px;box-sizing:border-box}
+
+.product-body{padding:13px}.product h3{margin:0 0 5px;font-size:15px}.price{color:var(--g);font-weight:900;font-size:16px}.muted{color:var(--muted);font-size:13px}.product .btn{width:100%;margin-top:9px;padding:10px}
+.grid3{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat,.category{background:#f1f7f2;border-radius:16px;padding:14px}.stat b{display:block;margin:5px 0 3px}.category{border:1px solid var(--line);background:#fff;text-align:left}.category span{font-size:25px}.category b{display:block;margin-top:7px}
+.notice{background:#fff7d9;border-left:4px solid var(--gold);padding:13px;border-radius:12px}
+input,select,textarea{width:100%;border:1px solid #d7dfd9;border-radius:12px;padding:12px;background:#fff;outline:0}input:focus,select:focus,textarea:focus{border-color:var(--g);box-shadow:0 0 0 3px #176b3a14}textarea{resize:vertical}label{display:block;font-weight:800;font-size:13px;margin:10px 0 5px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.detail-img{height:300px;border-radius:20px;background:#f7f4e9;display:grid;place-items:center;overflow:hidden}.detail-img img{width:100%;height:100%;object-fit:contain;display:block;background:#f7f4e9}
+.back{border:0;background:transparent;color:var(--g);font-weight:800;padding:0;margin:2px 0 7px}
+.cart-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.cart-icon{width:50px;height:50px;flex:none;border-radius:14px;background:#f1f7f2;display:grid;place-items:center;font-size:25px}.info{flex:1}.qty{display:flex;align-items:center;gap:6px}.qty button{border:0;background:#edf4ef;color:var(--g);width:30px;height:30px;border-radius:9px;font-weight:900}.total{display:flex;justify-content:space-between;font-weight:900;font-size:18px;padding-top:13px}
+.steps{display:flex;gap:5px;margin:3px 0 14px}.step{height:5px;flex:1;background:#e5ebe6;border-radius:8px}.step.on{background:var(--g)}
+.empty{text-align:center;padding:28px 8px;color:var(--muted)}
+.fab{position:fixed;right:15px;bottom:78px;z-index:30;width:54px;height:54px;border:0;border-radius:50%;background:var(--wa);color:#fff;box-shadow:0 7px 22px #0003;font-size:25px}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:25;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 5px calc(6px + env(safe-area-inset-bottom))}
+.bottom-nav button{border:0;background:transparent;color:#68736b;padding:6px 2px;border-radius:12px;font-size:11px;font-weight:800}.bottom-nav button span{display:block;font-size:20px;line-height:21px;margin-bottom:2px}.bottom-nav button.active{background:#edf6ef;color:var(--g)}
+.success{background:#eef8f0;border:1px solid #cfe5d3;border-radius:14px;padding:13px}.small{font-size:12px;color:var(--muted);line-height:1.5}
+footer{max-width:1100px;margin:0 auto;padding:0 16px 110px;color:var(--muted);font-size:12px}
+@media(min-width:760px){.bottom-nav{display:none}.topnav{display:flex}main{padding-bottom:35px}.product-grid{grid-template-columns:repeat(4,1fr)}.grid3{grid-template-columns:repeat(3,1fr)}.product-img{height:190px}.detail-img{height:360px}.fab{bottom:24px;right:24px}}
+@media(max-width:450px){.form-row{grid-template-columns:1fr}.actions .btn{min-width:100%}}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="header-inner">
+  <div class="brand"><div class="logo">🛍️</div><div><h1>OLAB'S FOODS & MORE</h1><small>Quality you can trust, Goodness you can taste!</small></div></div>
+  <div class="hero">
+   <h2>Quality you can trust, Goodness you can taste!</h2>
+   <p>Foodstuff you can trust, delivered nationwide.</p>
+   <div class="actions">
+    <button class="btn gold" onclick="navigate('shop')">Shop Now</button>
+    <button class="btn light" onclick="whatsapp('Hello OLAB\'S FOODS & MORE, I would like to make an enquiry.')">Order on WhatsApp</button>
+   </div>
+  </div>
+ </div>
+</header>
+
+<nav id="topnav" class="topnav"></nav>
+
+<main>
+<section id="home" class="screen active">
+ <div class="card">
+  <div class="section-head"><h2>Shop our foodstuff</h2><button onclick="navigate('shop')">View Shop</button></div>
+  <div id="featured" class="product-grid"></div>
+ </div>
+ <section class="card about-us" aria-labelledby="about-us-title">
+  <div class="section-head"><h2 id="about-us-title">About Us</h2></div>
+  <p>OLAB'S FOODS & MORE is committed to providing quality foodstuff you can trust, with a focus on clean, fresh and well-sorted products and friendly customer service.</p>
+  <p class="muted">We serve customers from Gate 1, Mile 12 International Market, Ikorodu Road, Lagos State, Nigeria, and offer nationwide delivery. Delivery fees are confirmed based on your location.</p>
+  <div class="actions"><button class="btn light" onclick="navigate('contact')">Contact Us</button><button class="btn primary" onclick="navigate('shop')">Shop All Products</button></div>
+ </section>
+ <div class="section-head"><h2>Popular categories</h2></div>
+ <div class="grid3">
+  <button class="category" onclick="setFilter('Elubo')"><span>🌾</span><b>Elubo</b><small class="muted">Elubo Gbodo</small></button>
+  <button class="category" onclick="setFilter('Grains')"><span>🌾</span><b>Grains</b><small class="muted">Guinea corn & oats</small></button>
+  <button class="category" onclick="setFilter('Garri')"><span>🥣</span><b>Garri</b><small class="muted">Garri varieties</small></button>
+  <button class="category" onclick="setFilter('Corn')"><span>🌽</span><b>Corn</b><small class="muted">White & yellow corn</small></button>
+  <button class="category" onclick="setFilter('Flour/Powder')"><span>🥣</span><b>Flour/Powder</b><small class="muted">Wheat, Fufu & more</small></button>
+  <button class="category" onclick="setFilter('All')"><span>🛒</span><b>All Foodstuff</b><small class="muted">See everything</small></button>
+ </div>
+ <div class="card notice"><b>🚚 We deliver nationwide</b><br><span class="muted">Distance isn't a barrier. Delivery fees are confirmed based on your location.</span></div>
+ <div class="section-head"><h2>Why patronize OLAB'S FOODS & MORE?</h2></div>
+ <div class="grid3">
+  <div class="stat">🏅<b>Premium Quality Products</b><span class="muted">Clean, fresh and well sorted.</span></div>
+  <div class="stat">💰<b>Affordable Prices</b><span class="muted">Good products at competitive prices.</span></div>
+  <div class="stat">🤝<b>Excellent Customer Service</b><span class="muted">Friendly and reliable service.</span></div>
+ </div>
+ <div class="card"><h2>📍 Find us</h2><p class="muted">Gate 1, Mile 12 International Market, Ikorodu Road, Lagos State, Nigeria.</p><div class="actions"><button class="btn light" onclick="directions()">Get Directions</button><button class="btn primary" onclick="navigate('contact')">Contact us</button></div></div>
+</section>
+
+<section id="shop" class="screen">
+ <div class="section-head"><h2>Shop</h2><button onclick="setFilter('All')">All products</button></div>
+ <div class="card" style="padding:10px"><input id="search" placeholder="Search foodstuff..." oninput="renderShop()"></div>
+ <div id="filters" class="actions" style="margin-bottom:12px"></div>
+ <div id="shopGrid" class="product-grid"></div>
+</section>
+
+<section id="product" class="screen">
+ <button class="back" onclick="navigate('shop')">← Back to shop</button>
+ <div id="productDetail"></div>
+</section>
+
+<section id="cart" class="screen">
+ <div class="section-head"><h2>🛒 Your cart</h2><button onclick="clearCart()">Clear</button></div>
+ <div class="card"><div id="cartItems"></div><div id="cartSummary"></div></div>
+ <button id="checkoutBtn" class="btn primary full" onclick="navigate('checkout')">Continue to checkout</button>
+</section>
+
+<section id="checkout" class="screen">
+ <div class="steps"><i class="step on"></i><i class="step on"></i><i class="step"></i><i class="step"></i></div>
+ <div class="card"><h2>Checkout</h2><p class="muted">Your order is not sent yet.</p>
+  <div class="form-row"><div><label>Full name *</label><input id="customerName"></div><div><label>Phone number *</label><input id="customerPhone" type="tel"></div></div>
+  <label>State *</label><input id="customerState" placeholder="e.g. Lagos">
+  <label>City *</label><input id="customerCity" placeholder="e.g. Ikorodu">
+  <label>Optional note</label><textarea id="customerNote" rows="2"></textarea>
+  <button class="btn primary full" onclick="goDelivery()">Continue</button>
+ </div>
+</section>
+
+<section id="delivery" class="screen">
+ <div class="steps"><i class="step on"></i><i class="step on"></i><i class="step on"></i><i class="step"></i></div>
+ <div class="card"><h2>Delivery / Pickup</h2>
+  <label>How would you like to receive your order?</label>
+  <select id="deliveryMethod" onchange="toggleDelivery()"><option value="Pickup">🏪 Pick Up From Store</option><option value="Delivery">🚚 Door-to-Door Delivery</option></select>
+  <div id="deliveryFields" style="display:none">
+   <p class="notice">Allow OLAB'S FOODS & MORE to access your location only when you choose to share it. We do not track you continuously.</p>
+   <button class="btn light full" onclick="getLocation()">📍 Use My Current Location</button>
+   <p id="locationStatus" class="small"></p>
+   <label>Delivery address *</label><textarea id="deliveryAddress" rows="3" placeholder="House number, street, area, city"></textarea>
+   <div id="mapLinkBox"></div>
+  </div>
+  <p class="small">Delivery fee will be confirmed by OLAB'S FOODS & MORE based on your location.</p>
+  <button class="btn primary full" onclick="reviewOrder()">Review order</button>
+ </div>
+</section>
+
+<section id="confirm" class="screen">
+ <div class="steps"><i class="step on"></i><i class="step on"></i><i class="step on"></i><i class="step on"></i></div>
+ <div class="card"><h2>Review & confirm</h2><div id="review"></div>
+  <div class="notice"><b>Important:</b> Nothing is submitted by this website. WhatsApp will open with your order ready for review. Your order is only sent when you press Send in WhatsApp.</div>
+  <button class="btn primary full" style="margin-top:12px" onclick="sendOrder()">Place Order on WhatsApp</button>
+ </div>
+</section>
+
+<section id="contact" class="screen">
+ <div class="card"><h2>💬 Contact / Help & Complaints</h2><p class="muted">Send an enquiry or report an issue directly through WhatsApp.</p>
+  <label>Customer Name *</label><input id="reportName">
+  <label>Phone Number *</label><input id="reportPhone" type="tel">
+  <label>Order Number — optional</label><input id="reportOrder">
+  <label>Issue Type *</label><select id="issueType"><option>Wrong item received</option><option>Missing item</option><option>Damaged product</option><option>Delivery problem</option><option>Order delay</option><option>Payment/order question</option><option>Product quality complaint</option><option>General enquiry</option><option>Other</option></select>
+  <label>Description *</label><textarea id="reportDesc" rows="5"></textarea>
+  <label>Optional Delivery Address</label><textarea id="reportAddress" rows="3"></textarea>
+  <button class="btn primary full" onclick="sendReport()">Send Report on WhatsApp</button>
+  <p id="reportStatus" class="small"></p>
+ </div>
+ <div class="card"><h2>📍 Store</h2><p class="muted">Gate 1, Mile 12 International Market, Ikorodu Road, Lagos State, Nigeria.</p><button class="btn light full" onclick="directions()">Get Directions</button></div>
+</section>
+</main>
+<noscript><div class="card" style="max-width:1100px;margin:16px auto;padding:16px">Please enable JavaScript to use the shop, cart and checkout features.</div></noscript>
+
+<button class="fab" aria-label="WhatsApp" onclick="whatsapp('Hello OLAB\'S FOODS & MORE, I would like to make an enquiry.')">◉</button>
+
+<nav id="bottomnav" class="bottom-nav">
+ <button data-nav="home" onclick="navigate('home')"><span>🏠</span>Home</button>
+ <button data-nav="shop" onclick="navigate('shop')"><span>🛍️</span>Shop</button>
+ <button data-nav="cart" onclick="navigate('cart')"><span>🛒</span>Cart</button>
+ <button data-nav="delivery" onclick="navigate('delivery')"><span>📍</span>Delivery</button>
+ <button data-nav="contact" onclick="navigate('contact')"><span>💬</span>Contact</button>
+</nav>
+
+<footer>OLAB'S FOODS & MORE • Gate 1, Mile 12 International Market, Ikorodu Road, Lagos State, Nigeria.</footer>
+
+<script>
+(function(){
+'use strict';
+
+const WA='2348136263117';
+const products=[
+ {id:1,name:'Elubo Gbodo',cat:'Elubo',image:'images/elubo-gbodo.jpeg',emoji:'🌾',desc:'Original Elubo Gbodo in multiple sizes.',sizes:[['Paint of Elubo Gbodo',11000],['Half Garawa',16000],['Garawa Elubo',32000],['Big Bag Elubo Gbodo',400000]]},
+ {id:2,name:'Guinea Corn',cat:'Grains',image:'images/guinea-corn.jpeg',desc:'Guinea corn.',sizes:[['Paint of Guinea Corn',2500]]},
+ {id:3,name:'Fufu Flour',cat:'Flour/Powder',image:'images/fufu-flour.jpeg',desc:'Fufu flour available by paint.',sizes:[['Paint of Fufu Flour',5000]]},
+ {id:4,name:'Garri (Yellow & Ijebu)',cat:'Garri',image:'images/garri-yellow-ijebu.jpeg',desc:'A combined selection of Garri Ijebu and Yellow Garri.',sizes:[['Paint of Garri',1500],['Bag of Garri',27000]]},
+ {id:5,name:'Corn',cat:'Corn',image:'images/corn.jpeg',desc:'Corn available by paint or bag.',sizes:[['Paint of Corn',2000],['Bag of Corn',48000]]},
+ {id:6,name:'Wheat',cat:'Flour/Powder',image:'images/wheat.jpeg',desc:'Wheat foodstuff.',sizes:[['Price — contact us',null]]},
+ {id:7,name:'Stoned Free Ofada Rice',cat:'Rice',image:'images/stoned-free-ofada-rice.jpeg',emoji:'🍚',desc:'Stoned Free Ofada Rice.',sizes:[['Price — contact us',null]]},
+ {id:8,name:'Oats',cat:'Grains',image:'images/oats.jpeg',desc:'Oats.',sizes:[['Price — contact us',null]]},
+ {id:9,name:'Garri Ijebu',cat:'Garri',image:'images/garri-ijebu.jpeg',desc:'Garri Ijebu.',sizes:[['Price — contact us',null]]},
+ {id:10,name:'Yellow Garri',cat:'Garri',image:'images/yellow-garri.jpeg',desc:'Yellow Garri.',sizes:[['Price — contact us',null]]},
+ {id:11,name:'White Corn',cat:'Corn',image:'images/white-corn.jpeg',desc:'White corn.',sizes:[['Price — contact us',null]]},
+ {id:12,name:'Yellow Corn',cat:'Corn',image:'images/yellow-corn.jpeg',desc:'Yellow corn.',sizes:[['Price — contact us',null]]},
+ {id:13,name:'Poundo Yam',cat:'Flour/Powder',image:'images/poundo-yam.jpeg',desc:'Poundo Yam.',sizes:[['Price — contact us',null]]},
+ {id:14,name:'Fufu Powder',cat:'Flour/Powder',image:'images/fufu-powder.jpeg',emoji:'🥣',desc:'Fufu Powder.',sizes:[['Paint of Fufu Powder',5000]]},
+ {id:15,name:'Tapioca',cat:'Flour/Powder',image:'images/tapioca.jpeg',emoji:'🥣',desc:'Tapioca.',sizes:[['Paint of Tapioca',5000]]},
+];
+
+let cart=[];
+try{cart=JSON.parse(localStorage.getItem('olabsCart')||'[]');if(!Array.isArray(cart))cart=[];}catch(e){cart=[];}
+let filter='All',selected=null,sharedLocation=null;
+
+function money(n){return '₦'+Number(n).toLocaleString('en-NG');}
+function product(id){return products.find(function(p){return p.id===id;});}
+function priceOf(item){return product(item.id).sizes[item.size][1];}
+function sizeOf(item){return product(item.id).sizes[item.size][0];}
+function save(){localStorage.setItem('olabsCart',JSON.stringify(cart));}
+function cartCount(){return cart.reduce(function(a,x){return a+x.qty;},0);}
+function cartTotal(){return cart.reduce(function(a,x){return a+(priceOf(x)*x.qty);},0);}
+
+function whatsapp(text){
+ const url='https://wa.me/'+WA+'?text='+encodeURIComponent(text);
+ window.open(url,'_blank','noopener,noreferrer');
+}
+window.whatsapp=whatsapp;
+
+function navigate(id){
+ document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+ const target=document.getElementById(id);
+ if(!target)return;
+ target.classList.add('active');
+ updateNav(id);
+ if(id==='shop')renderShop();
+ if(id==='cart')renderCart();
+ window.scrollTo(0,0);
+}
+window.navigate=navigate;
+
+function updateNav(current){
+ document.querySelectorAll('#bottomnav [data-nav]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-nav')===current);});
+ const labels=[['home','🏠','Home'],['shop','🛍️','Shop'],['cart','🛒','Cart'],['delivery','📍','Delivery'],['contact','💬','Contact']];
+ document.getElementById('topnav').innerHTML=labels.map(function(x){return '<button data-nav="'+x[0]+'" onclick="navigate(\''+x[0]+'\')">'+x[1]+' '+x[2]+(x[0]==='cart'&&cartCount()?' ('+cartCount()+')':'')+'</button>';}).join('');
+ document.querySelectorAll('#topnav [data-nav]').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-nav')===current);});
+}
+
+function card(p){
+ const hasPrice=p.sizes.some(function(s){return s[1]!==null;});
+ const action=hasPrice?'View product':'Contact for price';
+ const media=p.image?'<img src="'+p.image+'" alt="'+esc(p.name)+'" loading="eager" decoding="async" onerror="this.onerror=null;this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'no-image\',textContent:\'Image unavailable\'}))">':'<div class="no-image">Photo coming soon</div>';
+ return '<article class="card product"><div class="product-img">'+media+'</div><div class="product-body"><h3>'+p.name+'</h3><div class="muted">'+p.cat+'</div><div class="price">'+(hasPrice?((p.sizes.length>1)?'Multiple sizes':'See price'):'Contact for price')+'</div><button class="btn '+(hasPrice?'light':'gold')+'" onclick="viewProduct('+p.id+')">'+action+'</button></div></article>';
+}
+
+function renderHome(){document.getElementById('featured').innerHTML=products.slice(0,2).map(card).join('');}
+
+function renderFilters(){
+ const cats=['All','Elubo','Rice','Cassava','Garri','Corn','Flour/Powder','Grains'];
+ document.getElementById('filters').innerHTML=cats.map(function(c){return '<button class="btn '+(filter===c?'primary':'light')+'" onclick="setFilter(\''+c+'\')">'+c+'</button>';}).join('');
+}
+
+function renderShop(){
+ renderFilters();
+ const q=(document.getElementById('search')||{value:''}).value.toLowerCase();
+ const list=products.filter(function(p){
+  const okFilter=filter==='All'||p.cat===filter;
+  return okFilter&&(p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q));
+ });
+ document.getElementById('shopGrid').innerHTML=list.length?list.map(card).join(''):'<div class="card empty">No foodstuff found.</div>';
+}
+window.renderShop=renderShop;
+
+function setFilter(c){filter=c;navigate('shop');}
+window.setFilter=setFilter;
+
+function viewProduct(id){
+ selected=product(id);
+ const hasPrice=selected.sizes.some(function(s){return s[1]!==null;});
+ const detailMedia=selected.image?'<img src="'+selected.image+'" alt="'+esc(selected.name)+'" decoding="async" onerror="this.onerror=null;this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'no-image\',textContent:\'Image unavailable\'}))">':'<div class="no-image">Photo coming soon</div>';
+ if(!hasPrice){
+  const msg="Hello OLAB'S FOODS & MORE,\n\nI would like to ask for the current price of "+selected.name+".\n\nThank you.";
+  document.getElementById('productDetail').innerHTML='<div class="card"><div class="detail-img">'+detailMedia+'</div><h2>'+selected.name+'</h2><p class="muted">'+selected.desc+'</p><div class="notice"><b>Contact us for price</b><br>Price is not listed yet. Tap below to ask OLAB\'S FOODS & MORE on WhatsApp.</div><button class="btn gold full" style="margin-top:12px" onclick="whatsapp('+JSON.stringify(msg)+')">Contact for price on WhatsApp</button></div>';
+ }else{
+  const opts=selected.sizes.map(function(s,i){return '<option value="'+i+'">'+s[0]+' — '+money(s[1])+'</option>';}).join('');
+  document.getElementById('productDetail').innerHTML='<div class="card"><div class="detail-img">'+detailMedia+'</div><h2>'+selected.name+'</h2><p class="muted">'+selected.desc+'</p><label>Select size</label><select id="sizeSelect" onchange="updatePrice()">'+opts+'</select><div id="chosenPrice" class="price" style="font-size:23px;margin:10px 0">'+money(selected.sizes[0][1])+'</div><label>Quantity</label><input id="qtySelect" type="number" min="1" value="1"><button class="btn primary full" onclick="addSelected()">Add to cart</button><button class="btn light full" style="margin-top:8px" onclick="quickWhatsApp()">Order on WhatsApp</button></div>';
+ }
+ navigate('product');
+}
+window.viewProduct=viewProduct;
+
+function updatePrice(){const i=Number(document.getElementById('sizeSelect').value);document.getElementById('chosenPrice').textContent=money(selected.sizes[i][1]);}
+window.updatePrice=updatePrice;
+
+function addSelected(){
+ const size=Number(document.getElementById('sizeSelect').value);
+ const qty=Math.max(1,Number(document.getElementById('qtySelect').value)||1);
+ const key=selected.id+'-'+size;
+ const found=cart.find(function(x){return x.key===key;});
+ if(found)found.qty+=qty;else cart.push({key:key,id:selected.id,size:size,qty:qty});
+ save();navigate('cart');
+}
+window.addSelected=addSelected;
+
+function quickWhatsApp(){
+ const size=Number(document.getElementById('sizeSelect').value),qty=Math.max(1,Number(document.getElementById('qtySelect').value)||1),s=selected.sizes[size];
+ whatsapp("Hello OLAB'S FOODS & MORE,\n\nI would like to order:\n"+selected.name+" — "+s[0]+" x"+qty+" = "+money(s[1])+"\n\nPlease confirm availability.\n\nThank you.");
+}
+window.quickWhatsApp=quickWhatsApp;
+
+function renderCart(){
+ const box=document.getElementById('cartItems');
+ if(!cart.length){box.innerHTML='<div class="empty">Your cart is empty.<br><br><button class="btn light" onclick="navigate(\'shop\')">Browse products</button></div>';document.getElementById('cartSummary').innerHTML='';document.getElementById('checkoutBtn').disabled=true;return;}
+ document.getElementById('checkoutBtn').disabled=false;
+ box.innerHTML=cart.map(function(x){const p=product(x.id),pr=priceOf(x);return '<div class="cart-row"><div class="cart-icon">'+p.emoji+'</div><div class="info"><b>'+p.name+'</b><div class="muted">'+sizeOf(x)+' • '+money(pr)+' each</div><b>'+money(pr*x.qty)+'</b></div><div class="qty"><button onclick="changeQty('+JSON.stringify(x.key)+',-1)">−</button><b>'+x.qty+'</b><button onclick="changeQty('+JSON.stringify(x.key)+',1)">+</button></div></div>';}).join('');
+ document.getElementById('cartSummary').innerHTML='<div class="total"><span>Total</span><span>'+money(cartTotal())+'</span></div>';
+}
+window.renderCart=renderCart;
+
+function changeQty(key,delta){const x=cart.find(function(i){return i.key===key;});if(!x)return;x.qty+=delta;if(x.qty<=0)cart=cart.filter(function(i){return i.key!==key;});save();renderCart();updateNav('cart');}
+window.changeQty=changeQty;
+function clearCart(){cart=[];save();renderCart();updateNav('cart');}
+window.clearCart=clearCart;
+
+function goDelivery(){
+ const fields=['customerName','customerPhone','customerState','customerCity'];
+ if(fields.some(function(id){return !document.getElementById(id).value.trim();})){alert('Please complete your name, phone, state and city.');return;}
+ navigate('delivery');
+}
+window.goDelivery=goDelivery;
+
+function toggleDelivery(){
+ const delivery=document.getElementById('deliveryMethod').value==='Delivery';
+ document.getElementById('deliveryFields').style.display=delivery?'block':'none';
+}
+window.toggleDelivery=toggleDelivery;
+
+function getLocation(){
+ const status=document.getElementById('locationStatus');
+ if(!navigator.geolocation){status.textContent='Location is not supported by this browser. Please enter your address manually.';return;}
+ status.textContent='Requesting your location...';
+ navigator.geolocation.getCurrentPosition(function(pos){
+  sharedLocation={lat:pos.coords.latitude,lng:pos.coords.longitude};
+  const link='https://www.google.com/maps?q='+sharedLocation.lat+','+sharedLocation.lng;
+  status.textContent='✓ Location captured. Please review and confirm your order.';
+  document.getElementById('mapLinkBox').innerHTML='<div class="success">📍 <b>Location ready</b><br><a href="'+link+'" target="_blank" rel="noopener">View location on Google Maps</a></div>';
+ },function(){status.textContent='Location permission was not granted. You can continue by entering your address manually.';},{enableHighAccuracy:true,timeout:10000,maximumAge:0});
+}
+window.getLocation=getLocation;
+
+function reviewOrder(){
+ const method=document.getElementById('deliveryMethod').value;
+ if(method==='Delivery'&&!document.getElementById('deliveryAddress').value.trim()&&!sharedLocation){alert('Please enter your delivery address or use your current location.');return;}
+ const items=cart.map(function(x){const p=product(x.id);return '<li>'+p.name+' — '+sizeOf(x)+' × '+x.qty+' = '+money(priceOf(x)*x.qty)+'</li>';}).join('');
+ const name=document.getElementById('customerName').value.trim();
+ const phone=document.getElementById('customerPhone').value.trim();
+ const state=document.getElementById('customerState').value.trim();
+ const city=document.getElementById('customerCity').value.trim();
+ const addr=document.getElementById('deliveryAddress').value.trim();
+ let loc=sharedLocation?'<br><b>Google Maps:</b> <a target="_blank" rel="noopener" href="https://www.google.com/maps?q='+sharedLocation.lat+','+sharedLocation.lng+'">View location</a>':'';
+ document.getElementById('review').innerHTML='<p><b>Name:</b> '+esc(name)+'</p><p><b>Phone:</b> '+esc(phone)+'</p><p><b>State/City:</b> '+esc(state)+' / '+esc(city)+'</p><p><b>Method:</b> '+esc(method)+'</p>'+(method==='Delivery'?'<p><b>Address:</b> '+esc(addr||'Location shared')+loc+'</p>':'<p><b>Pickup:</b> Gate 1, Mile 12 International Market, Ikorodu Road, Lagos State.</p>')+'<hr><b>Items</b><ul>'+items+'</ul><div class="total"><span>Total</span><span>'+money(cartTotal())+'</span></div>';
+ navigate('confirm');
+}
+window.reviewOrder=reviewOrder;
+
+function sendOrder(){
+ const name=document.getElementById('customerName').value.trim(),phone=document.getElementById('customerPhone').value.trim(),state=document.getElementById('customerState').value.trim(),city=document.getElementById('customerCity').value.trim(),note=document.getElementById('customerNote').value.trim(),method=document.getElementById('deliveryMethod').value,addr=document.getElementById('deliveryAddress').value.trim();
+ const items=cart.map(function(x){const p=product(x.id);return '- '+p.name+' — '+sizeOf(x)+' x'+x.qty+' = '+money(priceOf(x)*x.qty);}).join('\n');
+ let msg="Hello OLAB'S FOODS & MORE,\n\nI would like to place an order.\n\nCustomer Name: "+name+"\nPhone: "+phone+"\nState: "+state+"\nCity: "+city+"\nDelivery method: "+method;
+ if(method==='Delivery'){msg+='\nDelivery address: '+(addr||'Current location shared');}
+ if(sharedLocation)msg+='\nDelivery Location: https://www.google.com/maps?q='+sharedLocation.lat+','+sharedLocation.lng;
+ msg+='\n\nOrder:\n'+items+'\n\nTotal: '+money(cartTotal())+(note?'\n\nNote: '+note:'')+'\n\nThank you.';
+ whatsapp(msg);
+}
+window.sendOrder=sendOrder;
+
+function sendReport(){
+ const n=document.getElementById('reportName').value.trim(),p=document.getElementById('reportPhone').value.trim(),o=document.getElementById('reportOrder').value.trim()||'Not provided',i=document.getElementById('issueType').value,d=document.getElementById('reportDesc').value.trim(),a=document.getElementById('reportAddress').value.trim()||'Not provided';
+ if(!n||!p||!d){alert('Please complete the required fields.');return;}
+ const msg="Hello OLAB'S FOODS & MORE,\n\nI would like to report an issue.\n\nCustomer Name: "+n+"\nPhone: "+p+"\nOrder Number: "+o+"\nIssue: "+i+"\n\nDescription:\n"+d+"\n\nAddress:\n"+a+"\n\nThank you.";
+ document.getElementById('reportStatus').textContent='WhatsApp is opening. Your report is only sent after you review it and press Send.';
+ whatsapp(msg);
+}
+window.sendReport=sendReport;
+
+function directions(){window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent("Gate 1, Mile 12 International Market, Ikorodu Road, Lagos State, Nigeria"),'_blank','noopener,noreferrer');}
+window.directions=directions;
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c];});}
+
+renderHome();
+renderShop();
+renderCart();
+updateNav('home');
+toggleDelivery();
+window.addEventListener('pageshow',function(){const active=document.querySelector('.screen.active');updateNav(active?active.id:'home');renderHome();renderShop();renderCart();});
+
+})();
+</script>
+</body>
+</html>
